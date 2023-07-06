@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KichenObject : MonoBehaviour
+public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
@@ -19,7 +19,21 @@ public class KichenObject : MonoBehaviour
         get => clearCounter;
         set
         {
+            // Clear the old counter if there is one
+            if (clearCounter != null)
+            {
+                clearCounter.ClearKitchenObject();
+            }
+
             clearCounter = value;
+            // Safty check
+            if (clearCounter.HasKitchenObject())
+            {
+                Debug.LogError("Counter already has a kitchen object!");
+            }
+            clearCounter.SetKitchenObject(this);
+
+            // Change the visuals
             transform.SetParent(clearCounter.CounterTopPoint);
             transform.localPosition = Vector3.zero;
         }
