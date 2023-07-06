@@ -17,7 +17,12 @@ public class KichenObject : MonoBehaviour
     public ClearCounter ClearCounter
     {
         get => clearCounter;
-        set => clearCounter = value;
+        set
+        {
+            clearCounter = value;
+            transform.SetParent(clearCounter.CounterTopPoint);
+            transform.localPosition = Vector3.zero;
+        }
     }
 
     // Start is called before the first frame update
