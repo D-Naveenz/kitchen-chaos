@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,5 +39,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
         // This method is meant to be overriden
         Debug.LogError("Interact method in BaseCounter is not meant to be called!");
+    }
+
+    public virtual void InteractAlternate(Player player)
+    {
+        // This method is meant to be overriden
+        Debug.LogError("Interact Alternate method in BaseCounter is not meant to be called!");
     }
 }

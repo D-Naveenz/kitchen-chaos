@@ -39,6 +39,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
     // Update is called once per frame
@@ -59,6 +60,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     }
 
+    private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
+    {
+        if (selectedCounter != null)
+        {
+            selectedCounter.InteractAlternate(this);
+        }
+    }
+
     private void HandleMovement(Vector3 moveDirection)
     {
         float rotateSpeed = moveSpeed / 2 * 4;
@@ -75,18 +84,18 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
         else
         {
-            // if player cann't move to the direction, then we need to check whether the player can move to the x or z direction
+            // if player can't move to the direction, then we need to check whether the player can move to the x or z direction
             Vector3 moveToX = new Vector3(moveDirection.x, 0f, 0f).normalized;
             Vector3 moveToZ = new Vector3(0f, 0f, moveDirection.z).normalized;
 
-            if (!Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveToX, moveDistance))
+            if (moveDirection.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveToX, moveDistance))
             {
                 moveDirection = moveToX;
                 transform.position += moveDirection * moveDistance;
                 // setting the animation
                 IsWalking = moveDirection != Vector3.zero;
             }
-            else if (!Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveToZ, moveDistance))
+            else if (moveDirection.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveToZ, moveDistance))
             {
                 moveDirection = moveToZ;
                 transform.position += moveDirection * moveDistance;
