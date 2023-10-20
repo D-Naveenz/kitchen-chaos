@@ -6,7 +6,7 @@ public class KitchenObject : MonoBehaviour
 {
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
 
-    private ClearCounter clearCounter;
+    private IKitchenObjectParent kitchenObjectParent;
 
     public KitchenObjectSO KitchenObjectSO
     {
@@ -14,40 +14,28 @@ public class KitchenObject : MonoBehaviour
         set => kitchenObjectSO = value;
     }
 
-    public ClearCounter ClearCounter
+    public IKitchenObjectParent KitchenObjectParent
     {
-        get => clearCounter;
+        get => kitchenObjectParent;
         set
         {
             // Clear the old counter if there is one
-            if (clearCounter != null)
+            if (kitchenObjectParent != null)
             {
-                clearCounter.ClearKitchenObject();
+                kitchenObjectParent.ClearKitchenObject();
             }
 
-            clearCounter = value;
+            kitchenObjectParent = value;
             // Safty check
-            if (clearCounter.HasKitchenObject())
+            if (kitchenObjectParent.HasKitchenObject())
             {
                 Debug.LogError("Counter already has a kitchen object!");
             }
-            clearCounter.SetKitchenObject(this);
+            kitchenObjectParent.SetKitchenObject(this);
 
             // Change the visuals
-            transform.SetParent(clearCounter.CounterTopPoint);
+            transform.SetParent(kitchenObjectParent.CounterTopPoint);
             transform.localPosition = Vector3.zero;
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

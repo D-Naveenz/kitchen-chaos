@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKitchenObjectParent
 {
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
+    [SerializeField] private Transform kitchenObjectHoldPoint;
     private ClearCounter selectedCounter;
-    
+    private KitchenObject kichenObject;
+
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
@@ -18,6 +20,11 @@ public class Player : MonoBehaviour
     public bool IsWalking { get; private set; }
     public static Player Instance { get; private set; }
 
+    public Transform CounterTopPoint
+    {
+        get => kitchenObjectHoldPoint;
+        private set => kitchenObjectHoldPoint = value;
+    }
 
     private void Awake()
     {
@@ -48,7 +55,7 @@ public class Player : MonoBehaviour
     {
         if (selectedCounter != null)
         {
-            selectedCounter.Interact();
+            selectedCounter.Interact(this);
         }
     }
 
@@ -122,5 +129,25 @@ public class Player : MonoBehaviour
     {
         selectedCounter = clearCounter;
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { SelectedCounter = selectedCounter });
+    }
+
+    public KitchenObject GetKitchenObject()
+    {
+        return kichenObject;
+    }
+
+    public void SetKitchenObject(KitchenObject kitchenObject)
+    {
+        kichenObject = kitchenObject;
+    }
+
+    public void ClearKitchenObject()
+    {
+        kichenObject = null;
+    }
+
+    public bool HasKitchenObject()
+    {
+        return kichenObject != null;
     }
 }
