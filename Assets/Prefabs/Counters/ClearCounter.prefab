@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 4589716710238282922, guid: 0004cb1e11ad014419b943c7da960724,
         type: 3}
       propertyPath: m_Name
-      value: Selected
+      value: Selected_Visual
       objectReference: {fileID: 0}
     - target: {fileID: 4589716710238282922, guid: 0004cb1e11ad014419b943c7da960724,
         type: 3}
@@ -136,14 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9c7e2bd79bcee41a2555ad424026b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearCounter: {fileID: 3509020803143135521}
-  visualGameObject: {fileID: 6904800547385895558}
---- !u!1 &6904800547385895558 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8489276541531669327, guid: 0004cb1e11ad014419b943c7da960724,
-    type: 3}
-  m_PrefabInstance: {fileID: 3034651589845887433}
-  m_PrefabAsset: {fileID: 0}
+  counter: {fileID: 3509020803143135521}
 --- !u!1001 &4774193521478732276
 PrefabInstance:
   m_ObjectHideFlags: 0

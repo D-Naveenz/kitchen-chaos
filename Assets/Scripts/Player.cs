@@ -9,13 +9,13 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
-    private ClearCounter selectedCounter;
+    private BaseCounter selectedCounter;
     private KitchenObject kichenObject;
 
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter SelectedCounter { get; set; }
+        public BaseCounter SelectedCounter { get; set; }
     }
     public bool IsWalking { get; private set; }
     public static Player Instance { get; private set; }
@@ -112,11 +112,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         // checking whether the player can interact with the object in front of him
         if (Physics.Raycast(transform.position, InteractDirection, out RaycastHit hit, interactDistance, countersLayerMask))
         {
-            if (hit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (hit.transform.TryGetComponent(out BaseCounter counter))
             {
-                if (clearCounter != selectedCounter)
+                if (counter != selectedCounter)
                 {
-                    SetSelectedCounter(clearCounter);
+                    SetSelectedCounter(counter);
                 }
                 return;
             }
@@ -125,7 +125,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         SetSelectedCounter(null);
     }
 
-    private void SetSelectedCounter(ClearCounter clearCounter)
+    private void SetSelectedCounter(BaseCounter clearCounter)
     {
         selectedCounter = clearCounter;
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { SelectedCounter = selectedCounter });
